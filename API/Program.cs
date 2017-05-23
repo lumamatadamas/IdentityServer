@@ -1,18 +1,18 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using System;
 
-namespace IDServ
+namespace API
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            Console.Title = "IDServ";
-
+            Console.Title = "API";
             var host = new WebHostBuilder()
                 .UseKestrel()
-                .UseUrls("http://localhost:5000")
+                .UseUrls("http://localhost/5001")
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
