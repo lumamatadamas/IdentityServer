@@ -42,7 +42,7 @@ namespace API
             {
                 Authority = "http://localhost:5000",
                 RequireHttpsMetadata = false, 
-                ApiName = "api1"
+                ApiName = "api"
             });
 
             app.UseMvc();

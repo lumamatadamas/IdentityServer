@@ -39,17 +39,14 @@ namespace Client
         static void Main(string[] args)
         {
             Task.Run(() => MainAsync(args)).GetAwaiter().GetResult();
-
-            //Task.Run(async () => await MainAsync(new string[] { "a", "b" }));
-            //AsyncContext.Run(() => MainAsync(args));
         }
 
         static async Task MainAsync(string[] args)
         {
             var disco = await DiscoveryClient.GetAsync("http://localhost:5000");
 
-            var tokenClient = new TokenClient(disco.TokenEndpoint, "client", "secret");
-            var tokenResponse = await tokenClient.RequestClientCredentialsAsync("api1");
+            var tokenClient = new TokenClient(disco.TokenEndpoint, "ro.client", "secret");
+            var tokenResponse = await tokenClient.RequestResourceOwnerPasswordAsync("Alice","password", "api1");
 
             if (tokenResponse.IsError)
             {
@@ -58,6 +55,8 @@ namespace Client
             }
 
             Console.WriteLine(tokenResponse.Json);
+            Console.WriteLine("\n\n");
+
 
             var client = new HttpClient();
             client.SetBearerToken(tokenResponse.AccessToken);
@@ -70,8 +69,6 @@ namespace Client
                 var content = await response.Content.ReadAsStringAsync();
                 Console.WriteLine(JArray.Parse(content));
             }
-
-            Console.ReadLine();
         }
     }
 }
